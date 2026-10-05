@@ -11,7 +11,7 @@ Playwright + TypeScript (Page Object Model) suite that logs into [Ndosi Simplifi
 ## Setup
 ```powershell
 npm install
-npx playwright install --with-deps chromium
+npx playwright install --with-deps chromium and firefox
 copy .env.example .env   # fill in Usename / Password
 ```
 

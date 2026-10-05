@@ -24,11 +24,13 @@ export class ApiTracker {
     });
   }
 
+  // Returns recorded calls matching a URL substring and exact HTTP method.
   findCalls(urlSubstring: string, method: string): ApiCall[] {
     return this.calls.filter((call) => call.url.includes(urlSubstring) && call.method === method);
   }
 }
 
+// Custom fixtures layered on top of Playwright's base `page` fixture, one per page object + the API tracker.
 type Fixtures = {
   loginPage: LoginPage;
   homePage: HomePage;
@@ -37,6 +39,7 @@ type Fixtures = {
   apiTracker: ApiTracker;
 };
 
+// Extends the base test with the fixtures above so specs can destructure them directly instead of instantiating page objects manually.
 export const test = base.extend<Fixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
