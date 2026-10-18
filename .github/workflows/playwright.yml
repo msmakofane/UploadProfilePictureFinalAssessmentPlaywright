@@ -38,7 +38,7 @@ jobs:
         run: npx playwright install --with-deps chromium firefox
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=html,line
+        run: npx playwright test --workers=1 --reporter=html,line
 
       - name: Upload HTML report
         if: always()
