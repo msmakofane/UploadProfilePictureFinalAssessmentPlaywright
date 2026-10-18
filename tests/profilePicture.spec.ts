@@ -37,9 +37,15 @@ test.describe('Profile picture upload', () => {
 
     await test.step('Upload a new profile picture', async () => {
       const imagePath = path.resolve(userData.newProfilePicturePath);
+      // started before either action since the app may fire the upload call on file select or on save
+      const uploadResponse = page.waitForResponse(
+        (response) => response.url().includes('/profile/image') && response.request().method() === 'POST',
+      );
       await editProfilePage.uploadPicture(imagePath);
       await editProfilePage.screenshot('05-picture-selected');
       await editProfilePage.save();
+      // wait for it to land before the next step reloads the page, otherwise CI can abort it mid-flight
+      await uploadResponse;
     });
 
     await test.step('Ensure the profile picture is updated', async () => {

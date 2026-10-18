@@ -10,8 +10,9 @@ export class EditProfilePage extends BasePage {
     super(page);
   }
 
-  // Selecting a file immediately triggers the app's own upload call (POST /profile/image),
-  // ahead of and independent from the "Save Changes" click.
+  // Selecting a file triggers the app's own upload call (POST /profile/image); its timing
+  // relative to the "Save Changes" click isn't guaranteed, so callers should wait for that
+  // response themselves rather than assuming it's settled before save() returns.
   async uploadPicture(filePath: string) {
     await this.fileInput.setInputFiles(filePath);
   }
