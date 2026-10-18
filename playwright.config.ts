@@ -17,11 +17,19 @@ export default defineConfig({
   },
   projects: [
     {
+      // api spec only uses the `request` fixture, so it belongs in its own project
+      // instead of running (and reporting a result) under both browser projects below
+      name: 'api',
+      testMatch: '**/api/**',
+    },
+    {
       name: 'chromium',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Firefox'] },
     },
   ],
