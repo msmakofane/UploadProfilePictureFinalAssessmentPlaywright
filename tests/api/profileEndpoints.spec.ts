@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { test, expect } from '@playwright/test';
+import { test, expect, APIResponse } from '@playwright/test';
 import { userData, endpoints } from '../../src/data/userData';
 
 test.describe('Ndosi API — end-to-end profile picture upload (API only)', () => {
@@ -12,7 +12,7 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
     const profileUrl = `${userData.apiBaseUrl}${endpoints.profile}`;
     const uploadUrl = `${userData.apiBaseUrl}${endpoints.profileImage}`;
 
-    let loginRes;
+    let loginRes: APIResponse | undefined;
     let loginText = '';
     let loginBody: any = {};
     let authToken = '';
@@ -67,6 +67,10 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
       if (loginRes.status() === 200 && (authToken || authHeader || cookieHeader)) {
         break;
       }
+    }
+
+    if (!loginRes) {
+      throw new Error(`Login request never returned a response. Last body: ${loginText}`);
     }
 
     expect(loginRes.status(), `Login failed: ${loginText}`).toBe(200);
