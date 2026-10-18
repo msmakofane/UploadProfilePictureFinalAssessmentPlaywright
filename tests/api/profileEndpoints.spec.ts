@@ -18,12 +18,13 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
     let authToken = '';
     let cookieHeader = '';
 
+    // the real login content-type isn't documented, so try each shape until one authenticates
     const payloadCandidates = [
-      { headers: { 'Content-Type': 'application/json' }, data: { email: userData.email, password: userData.password } },
-      { form: { email: userData.email, password: userData.password } },
+      { headers: { 'Content-Type': 'application/json' }, data: { email: userData.apiEmail, password: userData.password } },
+      { form: { email: userData.apiEmail, password: userData.password } },
       {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        data: `email=${encodeURIComponent(userData.email)}&password=${encodeURIComponent(userData.password)}`,
+        data: `email=${encodeURIComponent(userData.apiEmail)}&password=${encodeURIComponent(userData.password)}`,
       },
     ];
 
@@ -41,6 +42,7 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
         loginBody = {};
       }
 
+      // token key name also isn't documented, so check every common field the API might use
       authToken =
         loginBody?.token ??
         loginBody?.data?.token ??
@@ -111,6 +113,7 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
     expect(profileRes.status(), `Profile fetch failed: ${await profileRes.text()}`).toBe(200);
 
     let uploadRes;
+    // multipart field name isn't documented either, so try each candidate until the upload succeeds
     const fieldNames = ['file', 'image', 'avatar', 'photo', 'profileImage'];
 
     for (const fieldName of fieldNames) {
