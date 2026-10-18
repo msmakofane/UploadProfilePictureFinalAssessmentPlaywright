@@ -12,7 +12,7 @@ test.describe('Ndosi API — end-to-end profile picture upload (API only)', () =
     const profileUrl = `${userData.apiBaseUrl}${endpoints.profile}`;
     const uploadUrl = `${userData.apiBaseUrl}${endpoints.profileImage}`;
 
-    let loginRes: any = null;
+    let loginRes;
     let loginText = '';
     let loginBody: any = {};
     let authToken = '';
