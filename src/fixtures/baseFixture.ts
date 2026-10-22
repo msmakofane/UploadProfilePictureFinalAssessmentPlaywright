@@ -30,7 +30,7 @@ export class ApiTracker {
   }
 }
 
-// Custom fixtures layered on top of Playwright's base `page` fixture, one per page object + the API tracker.
+// Creating objects for each page and the API tracker to be used as fixtures in tests.
 type Fixtures = {
   loginPage: LoginPage;
   homePage: HomePage;
@@ -39,7 +39,7 @@ type Fixtures = {
   apiTracker: ApiTracker;
 };
 
-// Extends the base test with the fixtures above so specs can destructure them directly instead of instantiating page objects manually.
+// Extends the base test to include the page objects and API tracker as fixtures.
 export const test = base.extend<Fixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));

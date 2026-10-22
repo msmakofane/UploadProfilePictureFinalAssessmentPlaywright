@@ -21,6 +21,7 @@ jobs:
     timeout-minutes: 60
 
     # secrets keep real credentials/URLs out of the repo; mirrors src/data/userData.ts fallbacks
+    # API_EMAIL is intentionally omitted here; userData.ts falls back to its hardcoded second account
     env:
       BASE_URL: ${{ secrets.BASE_URL }}
       API_BASE_URL: ${{ secrets.API_BASE_URL }}
